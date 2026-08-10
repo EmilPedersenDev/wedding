@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Designsystem — tokens, bastypografi och delade mönster.
+   Paletten är den som redan fanns i index.vue, plus en enda accentfärg.
+   ========================================================================== */
+
+:root {
+  --bg: #faf9f7;
+  --bg-tint: #f5f0eb;
+  --bg-alt: #f0ebe5;
+  --ink: #2c2c2c;
+  --ink-soft: #63615e;
+  --ink-mute: #8b8884;
+  --line: #c9c4be;
+  --accent: #7d8c78;
+
+  --serif: "Cormorant Garamond", "Georgia", serif;
+  --sans: "Jost", "Helvetica Neue", system-ui, sans-serif;
+
+  --nav-h: 4.25rem;
+  --section-y: clamp(4rem, 10vw, 8rem);
+  --gutter: clamp(1.5rem, 5vw, 3rem);
+}
+
+/* --- Reset ---------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ul,
+ol {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* så ankarlänkar inte hamnar under den sticky navigationen */
+  scroll-padding-top: var(--nav-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* --- Typografi ------------------------------------------------------------ */
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* --- Delade mönster ------------------------------------------------------- */
+
+/* Liten versal etikett ovanför rubriker — genomgående hierarkimarkör. */
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.25rem;
+}
+
+.section {
+  padding: var(--section-y) var(--gutter);
+
+  &--alt {
+    background: var(--bg-alt);
+  }
+
+  &--tint {
+    background: var(--bg-tint);
+  }
+}
+
+/* Innehållsbredd: .shell för sektionsbredd, .measure för löptext. */
+.shell {
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.measure {
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+.section__title {
+  font-size: clamp(1.9rem, 5vw, 2.9rem);
+  margin-bottom: 1.5rem;
+}
+
+.section__lead {
+  color: var(--ink-soft);
+}
+
+.section__head {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+/* Hårfin dekorlinje som avslutar sektionsrubriker. */
+.rule {
+  width: 3rem;
+  height: 1px;
+  border: 0;
+  background: var(--accent);
+  margin: 2rem auto 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.9rem 2.25rem;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--bg);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+
+  &:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  &--light {
+    color: var(--ink);
+    background: transparent;
+    border-color: currentColor;
+
+    &:hover {
+      background: var(--ink);
+      color: var(--bg);
+    }
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  transition: top 0.2s ease;
+
+  &:focus {
+    top: 0.5rem;
+  }
+}
+
+/* --- Scroll reveal (se app/plugins/reveal.client.ts) ---------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
