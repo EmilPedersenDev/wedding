@@ -12,6 +12,7 @@
   --ink-mute: #8b8884;
   --line: #c9c4be;
   --accent: #7d8c78;
+  --danger: #a8574d;
 
   --serif: "Cormorant Garamond", "Georgia", serif;
   --sans: "Jost", "Helvetica Neue", system-ui, sans-serif;
@@ -183,6 +184,15 @@ a {
     color: var(--ink);
   }
 
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    // Upprepas så att :hover-inverteringen ovan inte slår igenom på en inaktiv knapp.
+    background: var(--ink);
+    color: var(--bg);
+  }
+
   &--light {
     color: var(--ink);
     background: transparent;
@@ -211,7 +221,7 @@ a {
   }
 }
 
-/* --- Scroll reveal (se app/plugins/reveal.client.ts) ---------------------- */
+/* --- Scroll reveal (se app/plugins/reveal.ts) ------------------------------ */
 
 .reveal {
   opacity: 0;

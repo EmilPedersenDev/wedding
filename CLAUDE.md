@@ -23,13 +23,32 @@ This is a Nuxt 4 wedding website: one long single-page site with anchor navigati
 - `app/components/*.vue` — `SiteNav`, `SiteFooter` and one component per section (`HeroSection`, `VenueSection`, …). Flat directory so Nuxt auto-import gives unprefixed names.
 - `app/content/wedding.ts` — **all user-facing copy and image URLs**, as a typed `as const` object. This is the file to edit when changing wedding details or replacing placeholder text. Sections import their own slice (`const v = wedding.venue`).
 - `app/assets/css/main.scss` — the design system: CSS custom properties (palette, fonts, spacing), reset, base typography, and shared classes (`.section`, `.shell`, `.measure`, `.eyebrow`, `.btn`, `.rule`). Loaded globally via `css` in `nuxt.config.ts`.
-- `app/plugins/reveal.client.ts` — the `v-reveal` directive (IntersectionObserver fade-in; no-ops under `prefers-reduced-motion`).
+- `app/plugins/reveal.ts` — the `v-reveal` directive (IntersectionObserver fade-in; no-ops under `prefers-reduced-motion`). Deliberately not `.client.ts` — see the file's own docblock for why.
 
 Component-specific styling is scoped SCSS in each SFC, built on the tokens and shared classes from `main.scss`. Don't introduce new colors or spacing values without checking those tokens first.
 
 ### RSVP flow
 
-The RSVP form in `RsvpSection.vue` is UI only — client-side validation, error states and a submitted state, but **no backend**. `onSubmit` logs the form values to the console and flips to the thank-you state; see the `// TODO: Supabase` comment where the persistence call belongs.
+The RSVP form (`app/components/RsvpSection.vue`) POSTs JSON to a Supabase Edge Function — there is
+no Supabase client and no anon key in the browser. `onSubmit` awaits a Cloudflare Turnstile token
+from `app/components/TurnstileWidget.vue`, then `$fetch`s `runtimeConfig.public.rsvpEndpoint` and
+maps the response to one of five states: success, already-RSVP'd (`duplicate`), rate-limited,
+captcha-failed, or a generic error. A 400 with field-level errors is not terminal — it writes into
+`serverErrors` and returns the guest to the form. If `runtimeConfig.public.rsvpEndpoint` is unset
+(e.g. a bare `npm run dev` with no `.env`), submission falls back to logging the payload to the
+console and showing the success state, so the site stays usable without Supabase configured.
+
+Backend lives in `supabase/`:
+
+- `supabase/migrations/` — the `rsvp` and `rsvp_rate_limit` tables. RLS is enabled on both with
+  **no policies** — only the service role (used exclusively by the edge function) can read or
+  write; there is no anon insert path to weaken.
+- `supabase/functions/rsvp/` — the only write path. Deno + zod, pipeline order: honeypot →
+  Turnstile verification → per-IP rate limit → validation → insert. See its `README.md` for
+  required secrets, local `supabase functions serve` usage, and example curl requests.
+- Shared validation limits live in three places kept in sync by hand: `app/utils/rsvpLimits.ts`
+  (client UX), `supabase/functions/rsvp/schema.ts` (the zod schema — authoritative), and the
+  migration's `check` constraints (last line of defense).
 
 ### Design
 
@@ -37,4 +56,4 @@ There is a `wedding-site-design` skill in `.claude/skills/` covering the visual 
 
 ## Content language
 
-All user-facing text on the site — headings, labels, form fields, buttons, config strings in `nuxt.config.ts` (`names`, `date`, `time`, `venue`, `tagline`), etc. — must be written in Swedish. Code, comments, and identifiers stay in English as usual; only rendered site copy is Swedish.
+All user-facing text on the site — headings, labels, form fields, buttons, the content strings in `app/content/wedding.ts` (`names`, `date`, `venue`, `tagline`, etc.), etc. — must be written in Swedish. Code, comments, and identifiers stay in English as usual; only rendered site copy is Swedish.

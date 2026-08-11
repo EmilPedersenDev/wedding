@@ -90,8 +90,38 @@ export const wedding = {
     body: "Placeholder: svara gärna så snart ni vet — det hjälper oss enormt med planeringen av mat och sovplatser.",
     deadline: "1 mars 2027",
     deadlineLabel: "Sista svarsdag",
+
+    guestsLabel: "Antal personer (inklusive dig)",
+    submitLabel: "Skicka OSA",
+    submittingLabel: "Skickar…",
+    againLabel: "Skicka ett svar till",
+    retryLabel: "Försök igen",
+    summaryError: "Kontrollera de markerade fälten innan du skickar.",
+    honeypotLabel: "Lämna det här fältet tomt",
+
     thanksTitle: "Tack för ditt svar!",
     thanksBody: "Placeholder: vi har tagit emot din anmälan och hör av oss närmare bröllopet. Hör gärna av dig om något ändrar sig.",
+
+    duplicateTitle: "Du har redan svarat",
+    duplicateBody: "Vi har redan ett svar från den här e-postadressen. Hör av dig till oss om du vill ändra något i ditt svar.",
+
+    errorTitle: "Något gick fel",
+    errorBody: "Vi kunde tyvärr inte ta emot ditt svar just nu. Försök igen om en liten stund.",
+    rateLimitBody: "Du har skickat flera svar på kort tid. Vänta en stund och försök igen.",
+    captchaBody: "Vi kunde inte verifiera att du är en människa. Ladda om sidan och försök igen.",
+
+    fieldErrors: {
+      nameRequired: "Fyll i ditt namn.",
+      nameTooLong: "Namnet får vara högst 100 tecken.",
+      emailRequired: "Fyll i din e-postadress.",
+      emailInvalid: "Kontrollera e-postadressen.",
+      emailTooLong: "E-postadressen är för lång.",
+      guestsRequired: "Ange minst en person.",
+      guestsRange: "Ange mellan 1 och 10 personer.",
+      dietTooLong: "Håll dig till högst 500 tecken.",
+      noteTooLong: "Håll dig till högst 1000 tecken.",
+      generic: "Kontrollera fältet.",
+    },
   },
 
   faq: {
