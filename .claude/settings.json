@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/guard-secrets.sh\"",
+            "timeout": 5,
+            "statusMessage": "Checking for credential files…"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "This repo has a hard rule: ALL user-facing website copy must be written in Swedish. Code, comments, and identifiers stay in English — only rendered site copy is Swedish.\n\nA file was just edited. The hook payload is:\n\n$ARGUMENTS\n\nAnswer ok:true immediately, with no further analysis, if ANY of these hold:\n- the edited file_path is not under app/\n- the file is app/assets/css/main.scss or app/plugins/reveal.ts\n- the edit did not add any new user-facing text\n\nOtherwise answer ok:false ONLY if this edit introduced NEW user-facing text written in English rather than Swedish. User-facing text means: rendered strings and template text, headings, labels, button text, placeholders, aria-label, alt text, and the content values in app/content/wedding.ts.\n\nNever flag: identifiers, imports, type names, TypeScript keys, CSS class names, code comments, or English text that already existed before this edit. When in doubt, answer ok:true — a false alarm costs more than a missed one here.\n\nIf you answer ok:false, quote the offending English string in your reason.",
+            "continueOnBlock": true,
+            "timeout": 30,
+            "statusMessage": "Checking site copy is in Swedish…"
+          }
+        ]
+      }
+    ]
+  }
+}

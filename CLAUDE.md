@@ -48,7 +48,24 @@ Backend lives in `supabase/`:
   required secrets, local `supabase functions serve` usage, and example curl requests.
 - Shared validation limits live in three places kept in sync by hand: `app/utils/rsvpLimits.ts`
   (client UX), `supabase/functions/rsvp/schema.ts` (the zod schema — authoritative), and the
-  migration's `check` constraints (last line of defense).
+  migration's `check` constraints (last line of defense). The `check-rsvp-limits` hook (below)
+  reports drift between them, but it does not fix it — the sync is still yours to maintain.
+
+### Hooks
+
+`.claude/settings.json` registers three hooks; their scripts live in `.claude/hooks/`. Run
+`/hooks` to review or disable them. Successful hooks are silent by design.
+
+- **`guard-secrets.sh`** (`PreToolUse` on `Read|Edit|Write|Bash`) — denies access to `.env`,
+  `supabase/.env.local`, `.env.keys` and `.mcp.json`, which hold live secrets. `.env.example`
+  is allowed. For `Bash` it matches on the command string, so it is a guardrail, not a sandbox.
+- **`check-rsvp-limits.mjs`** (`PostToolUse` on `Edit|Write`) — when one of the three coupled
+  RSVP files is edited, compares `name`/`email`/`diet`/`note`/`guestsMax` across all three and
+  reports mismatches. Also reports a limit it can no longer parse, so a rename can't silently
+  disable the check. Advisory — it never blocks the edit.
+- **Swedish-copy check** (`PostToolUse` on `Edit|Write`, a `prompt` hook) — flags newly added
+  English user-facing text, enforcing the "Content language" rule below. Runs `continueOnBlock`,
+  so a false positive is fed back as a note rather than halting the turn.
 
 ### Design
 

@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "functions:serve": "supabase functions serve --env-file supabase/.env.local --no-verify-jwt",
+    "functions:serve:debug": "supabase functions serve --env-file supabase/.env.local --no-verify-jwt --inspect-mode brk"
   },
   "dependencies": {
     "nuxt": "^4.2.2",

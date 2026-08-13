@@ -57,6 +57,23 @@ without a real Turnstile account:
 
 Swap in real keys to test end-to-end against your actual Turnstile widget/site key pair.
 
+## Debug in VS Code
+
+`supabase/config.toml`'s `[edge_runtime]` section already sets `inspector_port = 8083`. Serve with
+the inspector active instead of the plain command above:
+
+```bash
+npm run functions:serve:debug
+```
+
+(`--inspect-mode brk` — the worker pauses on the first line of `index.ts` until a debugger attaches.
+Use `npm run functions:serve` for a normal, non-paused run.)
+
+Then run **Attach to rsvp edge function** from the Run and Debug panel (`.vscode/launch.json`) —
+it's a Node-protocol attach on port 8083, which works because Deno's inspector speaks the same V8
+inspector protocol. Breakpoints set in `index.ts` or `schema.ts` will bind once attached; trigger
+one with any of the curl requests below.
+
 ## Example requests
 
 Replace `$URL` with `http://127.0.0.1:54321/functions/v1/rsvp` locally, or the deployed function

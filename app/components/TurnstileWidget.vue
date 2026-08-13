@@ -111,7 +111,10 @@ onBeforeUnmount(() => {
     window.turnstile.remove(widgetId.value);
   }
   widgetId.value = null;
-  tokenResolvers = [];
+  // Resolve med null i stället för att bara tömma listan — annars hänger varje
+  // väntande getToken() för evigt, eftersom dess timeout letar upp sin resolve
+  // via indexOf i den nya (tomma) arrayen och aldrig hittar den.
+  for (const resolve of tokenResolvers.splice(0)) resolve(null);
 });
 
 /** Nollställ widgeten. Måste anropas efter varje icke-lyckat inskick — tokens är engångs. */

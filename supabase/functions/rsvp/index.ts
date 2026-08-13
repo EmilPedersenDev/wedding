@@ -13,7 +13,7 @@ const ALLOWED_ORIGINS = new Set(
 );
 
 const MAX_BODY_BYTES = 8_192;
-const RATE_LIMIT_MAX_PER_HOUR = 5;
+const RATE_LIMIT_MAX_PER_HOUR = 20;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_RETENTION_MS = 24 * 60 * 60 * 1000;
 
@@ -108,9 +108,10 @@ Deno.serve(async (req) => {
     return json({ ok: false, code: "captcha" }, 403, origin);
   }
 
-  // 3. RATE LIMIT — räkna, blockera om över gränsen (utan att skriva en ny rad,
-  // annars förlänger en spammande klient sin egen spärr i all evighet), annars
-  // skriv en rad för det här försöket innan vi går vidare till validering.
+  // 3a. RATE LIMIT (läs) — blockera om över gränsen. Raden för det här försöket skrivs inte
+  // här, utan efter lyckad validering (steg 3b) — annars förbrukar ett skräpigt eller trasigt
+  // inskick av kvoten precis som ett giltigt, och en familj bakom samma NAT som råkar mista
+  // en tangenttryckning tappar en del av sin gemensamma kvot i onödan.
   const ipSalt = requireEnv("IP_SALT");
   if (!ipSalt) {
     console.error("rsvp: IP_SALT saknas i miljön");
@@ -141,8 +142,6 @@ Deno.serve(async (req) => {
     return json({ ok: false, code: "rate_limited" }, 429, origin, { "Retry-After": "3600" });
   }
 
-  await db.from("rsvp_rate_limit").insert({ ip_hash: ipHash });
-
   // Städa gamla rader opportunistiskt (~5 % av anropen), utan att blockera svaret.
   if (Math.random() < 0.05) {
     const retentionCutoff = new Date(Date.now() - RATE_LIMIT_RETENTION_MS).toISOString();
@@ -157,6 +156,9 @@ Deno.serve(async (req) => {
     return json({ ok: false, code: "invalid", fields: toFieldErrors(parsed.error) }, 400, origin);
   }
   const { website: _honeypot, turnstile_token: _token, ...data } = parsed.data;
+
+  // 3b. RATE LIMIT (skriv) — försöket är nu giltigt, räkna det mot kvoten.
+  await db.from("rsvp_rate_limit").insert({ ip_hash: ipHash });
 
   // 5. INSERT — via service_role, som förbigår RLS.
   const { error: insertError } = await db.from("rsvp").insert({

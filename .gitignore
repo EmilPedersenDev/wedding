@@ -25,3 +25,4 @@ logs
 
 # Claude code
 .mcp.json
+.claude/worktrees/
