@@ -71,6 +71,19 @@ Backend lives in `supabase/`:
 
 There is a `wedding-site-design` skill in `.claude/skills/` covering the visual language (typography pairing, whitespace, muted palette, flat chrome-less UI, subtle motion). Consult it for any layout, color, spacing, imagery or new-section work.
 
+### Venue facts
+
+The wedding is at **Holmanäs Gård** (Lyckebovägen 248, 231 93 Trelleborg, Skåne). The
+`holmanas-venue` skill in `.claude/skills/` holds the verified facts about the venue — location,
+capacity, rooms, arrival/parking, and the house rules that affect what guests are told — extracted
+from the venue's own planning sheet and house rules plus holmanas.se. Its
+`references/venue-facts.md` is the fact sheet, and it also lists what is **not** yet decided.
+
+Consult it before writing or editing any copy about the venue, schedule, accommodation, travel or
+practical logistics. Do not restate a venue detail from memory or from the existing placeholder
+text — several placeholders are wrong. Anything the fact sheet marks as unconfirmed must stay
+provisional in the copy or become a `// TODO:` in `app/content/wedding.ts`; never state it as fact.
+
 ## Content language
 
 All user-facing text on the site — headings, labels, form fields, buttons, the content strings in `app/content/wedding.ts` (`names`, `date`, `venue`, `tagline`, etc.), etc. — must be written in Swedish. Code, comments, and identifiers stay in English as usual; only rendered site copy is Swedish.
