@@ -90,11 +90,10 @@ export const wedding = {
   gifts: {
     eyebrow: "Presenter",
     title: "Presentönskemål",
-    body: "Den största presenten är att ni firar med oss. Om vi önskar oss något mer än så är inte bestämt än — vi återkommer.",
+    body: "Att ni firar med oss är den finaste presenten vi kan önska oss! Om ni ändå vill ge något utöver det, blir vi väldigt glada för ett bidrag till vår bröllopsresa.",
     swishLabel: "Swish",
-    // TODO: det här Swish-numret är påhittat — publicera inte sajten förrän det är ersatt med ett riktigt.
-    swish: "123 456 78 90",
-    note: "Önskelista och Swish-nummer läggs upp här så snart de är klara.",
+    swish: "0733520150",
+    note: "",
   },
 
   rsvp: {
