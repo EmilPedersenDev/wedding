@@ -6,15 +6,8 @@
         <h2 class="section__title">{{ a.title }}</h2>
       </div>
 
-      <!-- Typografiskt block istället för bild: siffran bär sektionen. -->
-      <div v-reveal class="beds">
-        <p class="beds__number">{{ a.beds }}</p>
-        <p class="beds__label">{{ a.bedsLabel }}</p>
-      </div>
-
       <div v-reveal class="measure accommodation__text">
-        <p>{{ a.body }}</p>
-        <p class="accommodation__note">{{ a.note }}</p>
+        <p v-html="a.intro"></p>
       </div>
 
       <div v-reveal class="nearby">
@@ -28,6 +21,10 @@
             <p class="nearby__detail">{{ stay.detail }}</p>
           </li>
         </ul>
+      </div>
+
+      <div v-reveal class="measure accommodation__footer">
+        <p v-html="a.footer"></p>
       </div>
     </div>
   </section>
