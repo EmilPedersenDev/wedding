@@ -82,10 +82,9 @@ export const wedding = {
 
   dressCode: {
     eyebrow: "Klädkod",
-    // TODO: klädkoden är inte bestämd än (och inte heller om vi ber gäster undvika vitt).
-    title: "Meddelas senare",
-    body: "Klädkoden är inte spikad än, men vi lägger upp den här i god tid före bröllopet. Delar av dagen är utomhus på gräs, så räkna gärna med att det kan svalna på kvällen.",
-    note: "Mer information kommer.",
+    title: "Kavaj – det du känner dig fin i.",
+    body: "Holmanäs gård har många vackra miljöer som vi kommer att njuta av och röra oss mellan under dagen och kvällen, både inomhus och utomhus. Glöm inte att ta med något varmt om kvällen blir sval – och såklart, dansskorna!",
+    note: "",
   },
 
   gifts: {
