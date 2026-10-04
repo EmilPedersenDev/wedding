@@ -10,6 +10,7 @@
       <TravelSection />
       <DressCodeSection />
       <GiftsSection />
+      <SpeechesSection />
       <RsvpSection />
       <FaqSection />
       <ContactSection />
