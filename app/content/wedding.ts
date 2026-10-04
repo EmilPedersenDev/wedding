@@ -36,10 +36,9 @@ export const wedding = {
     eyebrow: "Dagen",
     title: "Tidsschema",
     body: "Tiderna nedan är preliminära — vi uppdaterar dem närmare bröllopet. Klockan 22.00 stängs dörrarna mot fälten av hänsyn till grannarna, så festen flyttar in efter det.",
-    // TODO: vigselns exakta tid och plats på gården är inte bestämd. Hela schemat är en gissning tills vidare.
     items: [
-      { time: "14.00", title: "Vigsel", body: "Exakt tid och plats på gården är inte spikat än — var på plats i god tid så ni inte missar något." },
-      { time: "15.00", title: "Mingel", body: "Bubbel och tilltugg på innergården och terrassen." },
+      { time: "15.00", title: "Vigsel", body: "Vigsel på Holmanäs gård." },
+      { time: "16.00", title: "Mingel", body: "Bubbel och tilltugg på innergården och terrassen." },
       { time: "17.30", title: "Middag", body: "Vi äter i logen. Menyn är inte klar än, men det blir gott — och säkert några tal och skålar på vägen." },
       { time: "21.00", title: "Fest", body: "Tårta, dans och bar. Klockan 22.00 stängs dörrarna mot fälten, så festen flyttar in." },
     ],
@@ -47,20 +46,24 @@ export const wedding = {
 
   accommodation: {
     eyebrow: "Boende",
-    title: "Sov kvar på gården",
-    // TODO: antalet sovplatser är inte bekräftat. Holmanäs eget planeringsunderlag anger upp till
-    // 13 dubbelrum i 4 hus, men holmanas.se anger 15 dubbelrum — stäm av med Emma på Holmanäs
-    // innan den här siffran publiceras.
-    beds: 26,
-    bedsLabel: "sovplatser på gården",
-    body: "Det finns rum i flera av gårdens hus, men platserna är begränsade. Vi fördelar dem när alla har svarat, med förtur till er som reser längst — ange i din OSA om du vill sova över.",
-    note: "Vi återkommer med vilka som fått rum och de praktiska detaljerna kring boendet.",
-    nearbyTitle: "Boende i närheten",
-    // TODO: leta upp faktiska boenden i Höllviken/Skanör-trakten och ersätt raden nedan.
-    // Inga påhittade hotell — de fyra som stod här tidigare fanns inte.
+    title: "Boende",
+    intro: "För den som vill bo <strong>runt hörnet, bland rapsfälten och nära Holmanäs</strong> finns ett begränsat antal sängplatser att hyra på granngårdarna.",
+    nearbyTitle: "Närmast Holmanäs",
     nearby: [
-      { name: "Mer information kommer", detail: "Vi tipsar om boende i närheten närmare bröllopet", link: "" },
+      { name: "Lägenhet med två sovrum", detail: "dubbelsängar, 2–4 personer", link: "" },
+      { name: "Gästhus", detail: "dubbelsäng och bäddsoffa, 2–3 personer", link: "" },
+      { name: "Lägenhet med två sovrum", detail: "4 sängplatser", link: "" },
+      { name: "Lägenhet med tre sovrum", detail: "5 sängplatser", link: "" },
+      { name: "Bokning", detail: "Är ni intresserade av något av dessa boenden? Mer information om bokning och kontaktuppgifter kommer inom kort.", link: "" },
+      { name: "Liebacksgården – 1,5 km från Holmanäs", detail: "Liebacksvägen 59, med 5 sängplatser. Kan bland annat bokas via Booking.com.", link: "" },
+      { name: "Hotell Stavstensgården – 5,6 km från Holmanäs", detail: "Ett lantligt hotellalternativ med nära till Holmanäs.", link: "" },
+      { name: "Hotell Gässlingen, Skanör – ca 6,3 km från Holmanäs", detail: "Ett hotellalternativ i Skanör.", link: "" },
+      { name: "Strandvillan Ljunghusen – ca 7 km från Holmanäs", detail: "Ett mindre boende nära havet och Falsterbokanalen.", link: "" },
+      { name: "Ängavallen – ca 7 km från Holmanäs", detail: "Ett lantligt boende i gårdsmiljö.", link: "" },
+      { name: "Höllviksnäs – 8,3 km från Holmanäs", detail: "Här finns både hotellrum och villor för större sällskap.", link: "" },
+      { name: "Malmö och Trelleborg – ca 25 min från Holmanäs", detail: "För den som hellre vill bo i stadsmiljö finns även flera hotellalternativ i både Malmö och Trelleborg, cirka 25 minuters bilresa från Holmanäs.", link: "" },
     ],
+    footer: "Det finns även ett stort utbud av hus och lägenheter i <strong>Höllviken, Ljunghusen, Skanör och Falsterbo</strong> genom exempelvis <strong>Airbnb</strong>.",
   },
 
   travel: {
