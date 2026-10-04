@@ -56,7 +56,7 @@ export const wedding = {
       { name: "Lägenhet med tre sovrum", detail: "5 sängplatser", link: "" },
     ],
     bookingNote: "Är ni intresserade av något av dessa boenden? Mer information om bokning och kontaktuppgifter kommer inom kort.",
-    nearby: [
+    nearbyHotels: [
       { name: "Liebacksgården – 1,5 km från Holmanäs", detail: "Liebacksvägen 59, med 5 sängplatser. Kan bland annat bokas via Booking.com.", link: "" },
       { name: "Hotell Stavstensgården – 5,6 km från Holmanäs", detail: "Ett lantligt hotellalternativ med nära till Holmanäs.", link: "" },
       { name: "Hotell Gässlingen, Skanör – ca 6,3 km från Holmanäs", detail: "Ett hotellalternativ i Skanör.", link: "" },
