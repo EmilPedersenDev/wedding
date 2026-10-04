@@ -96,6 +96,13 @@ export const wedding = {
     note: "",
   },
 
+  speeches: {
+    eyebrow: "Tal & toastmadames",
+    title: "Tal & toastmadames",
+    body: "Vi är så glada att ha <strong>Linn Hänsel och Caroline Nileskär</strong> som våra toastmadames och ser fram emot allt fint, roligt och oväntat som kan dyka upp under kvällen. Om du vill hålla tal eller bidra med något annat inslag, är det till dem du vänder dig.",
+    note: "Information om vart du vänder dig och när du senast behöver höra av dig kommer snart.",
+  },
+
   rsvp: {
     eyebrow: "OSA",
     title: "Säg att ni kommer",
@@ -229,6 +236,7 @@ export const wedding = {
     { id: "resa", label: "Resa" },
     { id: "kladkod", label: "Klädkod" },
     { id: "presenter", label: "Presenter" },
+    { id: "tal", label: "Tal & toastmadames" },
     { id: "osa", label: "OSA" },
     { id: "faq", label: "FAQ" },
     { id: "kontakt", label: "Kontakt" },
