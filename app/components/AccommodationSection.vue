@@ -23,6 +23,18 @@
         </ul>
       </div>
 
+      <div v-reveal class="nearby nearby--hotels">
+        <ul class="nearby__list">
+          <li v-for="stay in a.nearbyHotels" :key="stay.name" class="nearby__item">
+            <p class="nearby__name">
+              <a v-if="stay.link" :href="stay.link" target="_blank" rel="noopener noreferrer">{{ stay.name }}</a>
+              <template v-else>{{ stay.name }}</template>
+            </p>
+            <p class="nearby__detail">{{ stay.detail }}</p>
+          </li>
+        </ul>
+      </div>
+
       <div v-reveal class="measure accommodation__footer">
         <p v-html="a.footer"></p>
       </div>
