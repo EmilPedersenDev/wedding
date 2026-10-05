@@ -141,7 +141,6 @@ export const wedding = {
     againLabel: "Skicka ett svar till",
     retryLabel: "Försök igen",
     summaryError: "Kontrollera de markerade fälten innan du skickar.",
-    honeypotLabel: "Lämna det här fältet tomt",
 
     thanksTitle: "Tack för ditt svar!",
     thanksBody:
@@ -154,10 +153,6 @@ export const wedding = {
     errorTitle: "Något gick fel",
     errorBody:
       "Vi kunde tyvärr inte ta emot ditt svar just nu. Försök igen om en liten stund.",
-    rateLimitBody:
-      "Du har skickat flera svar på kort tid. Vänta en stund och försök igen.",
-    captchaBody:
-      "Vi kunde inte verifiera att du är en människa. Ladda om sidan och försök igen.",
 
     fieldErrors: {
       nameRequired: "Fyll i ditt namn.",
