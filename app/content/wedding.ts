@@ -18,7 +18,7 @@ export const wedding = {
   tagline: "Vi gifter oss",
 
   hero: {
-    intro: "Bröllop",
+    intro: "Välkommen till vårt bröllop",
     location: "Holmanäs gård, Skåne",
     cta: "OSA här",
   },
