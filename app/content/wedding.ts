@@ -134,7 +134,7 @@ export const wedding = {
     deadline: "1 mars 2027",
     deadlineLabel: "Sista svarsdag",
 
-    guestNameLabel: "Namn på gäst (vid anmälan av respektive)",
+    guestNameLabel: "Fullständigt namn på gäst (vid anmälan av respektive)",
     submitLabel: "Skicka svar",
     submittingLabel: "Skickar…",
     retryLabel: "Försök igen",
