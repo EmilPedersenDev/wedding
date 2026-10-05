@@ -48,7 +48,7 @@ export const wedding = {
     title: "Tidsschema",
     body: "Vigseln börjar klockan 15.00, och sedan firar vi tillsammans resten av dagen och kvällen!",
     items: [
-      { time: "15.00", title: "Vigsel", body: "Vigsel på Holmanäs gård." },
+      { time: "15.00", title: "Vigsel", body: 'Vigsel på <a href="#plats">Holmanäs gård</a>.' },
       {
         title: "Mingel",
         body: "Bubbel och tilltugg på innergården och terrassen.",
