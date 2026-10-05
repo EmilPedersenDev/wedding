@@ -63,7 +63,7 @@ Backend lives in `supabase/`:
   `supabase/.env.local`, `.env.keys` and `.mcp.json`, which hold live secrets. `.env.example`
   is allowed. For `Bash` it matches on the command string, so it is a guardrail, not a sandbox.
 - **`check-rsvp-limits.mjs`** (`PostToolUse` on `Edit|Write`) — when one of the three coupled
-  RSVP files is edited, compares `name`/`email`/`diet`/`note`/`guestsMax` across all three and
+  RSVP files is edited, compares `name`/`email`/`diet`/`note`/`guestName` across all three and
   reports mismatches. Also reports a limit it can no longer parse, so a rename can't silently
   disable the check. Advisory — it never blocks the edit.
 - **Swedish-copy check** (`PostToolUse` on `Edit|Write`, a `prompt` hook) — flags newly added

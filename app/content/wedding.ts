@@ -129,14 +129,13 @@ export const wedding = {
   },
 
   rsvp: {
-    eyebrow: "OSA",
-    title: "Säg att ni kommer",
-    body: "Svara gärna så snart ni vet — det hjälper oss enormt med planeringen av mat och sovplatser. Skriv i formuläret om du vill sova över eller har specialkost.",
+    title: "OSA",
+    body: "Vi hoppas att ni vill fira med oss!",
     deadline: "1 mars 2027",
     deadlineLabel: "Sista svarsdag",
 
-    guestsLabel: "Antal personer (inklusive dig)",
-    submitLabel: "Skicka OSA",
+    guestNameLabel: "Namn på gäst (vid anmälan av respektive)",
+    submitLabel: "Skicka svar",
     submittingLabel: "Skickar…",
     againLabel: "Skicka ett svar till",
     retryLabel: "Försök igen",
@@ -160,8 +159,7 @@ export const wedding = {
       emailRequired: "Fyll i din e-postadress.",
       emailInvalid: "Kontrollera e-postadressen.",
       emailTooLong: "E-postadressen är för lång.",
-      guestsRequired: "Ange minst en person.",
-      guestsRange: "Ange mellan 1 och 10 personer.",
+      guestNameTooLong: "Namnet får vara högst 100 tecken.",
       dietTooLong: "Håll dig till högst 500 tecken.",
       noteTooLong: "Håll dig till högst 1000 tecken.",
       generic: "Kontrollera fältet.",

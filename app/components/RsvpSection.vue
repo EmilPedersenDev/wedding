@@ -2,7 +2,6 @@
   <section id="osa" class="section section--tint">
     <div class="shell">
       <div v-reveal class="section__head measure">
-        <p class="eyebrow">{{ r.eyebrow }}</p>
         <h2 class="section__title">{{ r.title }}</h2>
         <p class="section__lead">{{ r.body }}</p>
         <p class="rsvp__deadline">{{ r.deadlineLabel }} — {{ r.deadline }}</p>
@@ -64,19 +63,18 @@
 
         <template v-if="form.attending === 'yes'">
           <div class="field field--wide">
-            <label for="rsvp-guests">{{ r.guestsLabel }}</label>
+            <label for="rsvp-guest-name">{{ r.guestNameLabel }}</label>
             <input
-              id="rsvp-guests"
-              v-model.number="form.guests"
-              type="number"
-              :min="RSVP_LIMITS.guestsMin"
-              :max="RSVP_LIMITS.guestsMax"
-              inputmode="numeric"
-              :aria-invalid="!!errors.guests"
-              :aria-describedby="errors.guests ? 'err-guests' : undefined"
-              @blur="touch('guests')"
+              id="rsvp-guest-name"
+              v-model.trim="form.guestName"
+              type="text"
+              autocomplete="off"
+              :maxlength="RSVP_LIMITS.guestName"
+              :aria-invalid="!!errors.guestName"
+              :aria-describedby="errors.guestName ? 'err-guest-name' : undefined"
+              @blur="touch('guestName')"
             />
-            <p v-if="errors.guests" id="err-guests" class="field__error">{{ errors.guests }}</p>
+            <p v-if="errors.guestName" id="err-guest-name" class="field__error">{{ errors.guestName }}</p>
           </div>
 
           <div class="field field--wide">
@@ -129,14 +127,14 @@ import { RSVP_LIMITS } from "~/utils/rsvpLimits";
 
 const r = wedding.rsvp;
 
-type FieldName = "name" | "email" | "guests" | "diet" | "note";
+type FieldName = "name" | "email" | "guestName" | "diet" | "note";
 type ResultState = "success" | "duplicate" | "error" | null;
 
 const emptyForm = () => ({
   name: "",
   email: "",
   attending: "yes" as "yes" | "no",
-  guests: 1,
+  guestName: "",
   diet: "",
   note: "",
 });
@@ -144,7 +142,7 @@ const emptyForm = () => ({
 const config = useRuntimeConfig();
 
 const form = reactive(emptyForm());
-const touched = reactive<Record<FieldName, boolean>>({ name: false, email: false, guests: false, diet: false, note: false });
+const touched = reactive<Record<FieldName, boolean>>({ name: false, email: false, guestName: false, diet: false, note: false });
 const attempted = ref(false);
 const pending = ref(false);
 const result = ref<ResultState>(null);
@@ -164,8 +162,7 @@ const allErrors = computed<Partial<Record<FieldName, string>>>(() => {
   else if (!EMAIL_RE.test(form.email)) e.email = r.fieldErrors.emailInvalid;
 
   if (form.attending === "yes") {
-    if (!Number.isFinite(form.guests) || form.guests < RSVP_LIMITS.guestsMin) e.guests = r.fieldErrors.guestsRequired;
-    else if (form.guests > RSVP_LIMITS.guestsMax) e.guests = r.fieldErrors.guestsRange;
+    if (form.guestName.length > RSVP_LIMITS.guestName) e.guestName = r.fieldErrors.guestNameTooLong;
 
     if (form.diet.length > RSVP_LIMITS.diet) e.diet = r.fieldErrors.dietTooLong;
   }
@@ -218,7 +215,7 @@ function clearServerErrors() {
 const SERVER_FIELD_MAP: Record<string, FieldName> = {
   name: "name",
   email: "email",
-  num_of_guests: "guests",
+  guest_name: "guestName",
   allergies_and_special_food: "diet",
   other_information: "note",
 };
@@ -228,7 +225,7 @@ const SERVER_FIELD_MAP: Record<string, FieldName> = {
 const FIELD_ERROR_MESSAGES: Record<FieldName, Partial<Record<string, string>>> = {
   name: { required: r.fieldErrors.nameRequired, too_long: r.fieldErrors.nameTooLong },
   email: { required: r.fieldErrors.emailRequired, invalid_email: r.fieldErrors.emailInvalid, too_long: r.fieldErrors.emailTooLong },
-  guests: { out_of_range: r.fieldErrors.guestsRange, invalid_type: r.fieldErrors.guestsRequired },
+  guestName: { too_long: r.fieldErrors.guestNameTooLong },
   diet: { too_long: r.fieldErrors.dietTooLong },
   note: { too_long: r.fieldErrors.noteTooLong },
 };
@@ -248,7 +245,7 @@ function buildPayload() {
     name: form.name.trim(),
     email: form.email.trim().toLowerCase(),
     attending: form.attending === "yes",
-    num_of_guests: form.attending === "yes" ? form.guests : 0,
+    guest_name: form.attending === "yes" ? form.guestName.trim() : "",
     allergies_and_special_food: form.attending === "yes" ? form.diet.trim() : "",
     other_information: form.note.trim(),
   };
@@ -303,7 +300,7 @@ async function onSubmit() {
 
 function reset() {
   Object.assign(form, emptyForm());
-  touched.name = touched.email = touched.guests = touched.diet = touched.note = false;
+  touched.name = touched.email = touched.guestName = touched.diet = touched.note = false;
   attempted.value = false;
   clearServerErrors();
   result.value = null;
@@ -362,7 +359,6 @@ legend {
 
 input[type="text"],
 input[type="email"],
-input[type="number"],
 textarea {
   font-family: var(--sans);
   font-weight: 300;

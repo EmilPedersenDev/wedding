@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 // Speglar app/utils/rsvpLimits.ts (klientvalidering) och check-constraints i
-// supabase/migrations/20260811092112_rsvp.sql (sista skyddslinjen i databasen).
-const LIMITS = { name: 100, email: 254, diet: 500, note: 1000, guestsMax: 10 } as const;
+// supabase/migrations/ (sista skyddslinjen i databasen).
+const LIMITS = { name: 100, email: 254, diet: 500, note: 1000, guestName: 100 } as const;
 
 /**
  * Enda källan till sanning för indata till OSA-funktionen. Okända nycklar strippas
  * i stället för att avvisas, så att en cachad äldre klient som fortfarande skickar
- * borttagna fält (t.ex. `website`, `turnstile_token`) inte fastnar på ett 400 den
+ * borttagna fält (t.ex. `num_of_guests`, `turnstile_token`) inte fastnar på ett 400 den
  * inte kan visa. Varje fälts felmeddelande ÄR maskinkoden som skickas till
  * klienten (se toFieldErrors) — indata ekas aldrig tillbaka i ett svar.
  */
@@ -24,10 +24,7 @@ export const rsvpPayloadSchema = z.object({
     .pipe(z.email({ error: "invalid_email" }).max(LIMITS.email, { error: "too_long" })),
   // Strikt boolean — ingen coercion från t.ex. strängen "yes".
   attending: z.boolean({ error: "invalid_type" }),
-  num_of_guests: z
-    .int({ error: "invalid_type" })
-    .min(0, { error: "out_of_range" })
-    .max(LIMITS.guestsMax, { error: "out_of_range" }),
+  guest_name: z.string().trim().max(LIMITS.guestName, { error: "too_long" }).optional().default(""),
   allergies_and_special_food: z.string().trim().max(LIMITS.diet, { error: "too_long" }).optional().default(""),
   other_information: z.string().trim().max(LIMITS.note, { error: "too_long" }).optional().default(""),
 });

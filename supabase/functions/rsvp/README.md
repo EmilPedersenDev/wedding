@@ -76,13 +76,13 @@ just won't carry `Access-Control-Allow-Origin`.
 curl -i -X POST "$URL" \
   -H "Content-Type: application/json" \
   -H "Origin: http://localhost:3000" \
-  -d '{"name":"Ada Lovelace","email":"ada@example.com","attending":true,"num_of_guests":2,
+  -d '{"name":"Ada Lovelace","email":"ada@example.com","attending":true,"guest_name":"Charles Babbage",
        "allergies_and_special_food":"","other_information":""}'
 # -> 200 {"ok":true}
 
 # Oversized field
 curl -i -X POST "$URL" -H "Content-Type: application/json" -H "Origin: http://localhost:3000" \
-  -d "{\"name\":\"$(python3 -c 'print("A"*101)')\",\"email\":\"ada3@example.com\",\"attending\":true,\"num_of_guests\":1}"
+  -d "{\"name\":\"$(python3 -c 'print("A"*101)')\",\"email\":\"ada3@example.com\",\"attending\":true}"
 # -> 400 {"ok":false,"code":"invalid","fields":{"name":"too_long"}}
 
 # Duplicate email (submit the first curl again)

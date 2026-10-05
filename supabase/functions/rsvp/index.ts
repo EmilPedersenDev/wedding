@@ -76,6 +76,7 @@ Deno.serve(async (req) => {
   // 2. INSERT — via service_role, som förbigår RLS.
   const { error: insertError } = await db.from("rsvp").insert({
     ...data,
+    guest_name: data.guest_name || null,
     allergies_and_special_food: data.allergies_and_special_food || null,
     other_information: data.other_information || null,
     user_agent: (req.headers.get("user-agent") ?? "").slice(0, 512) || null,
