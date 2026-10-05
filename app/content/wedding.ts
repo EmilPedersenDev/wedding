@@ -142,7 +142,7 @@ export const wedding = {
 
     thanksTitle: "Tack för ditt svar!",
     thanksBody:
-      "Vi har tagit emot ditt svar och hör av oss igen närmare bröllopet med mer information. Hör gärna av dig till oss om något ändrar sig.",
+      "Vi har tagit emot ditt svar. Hör gärna av dig till oss om något ändrar sig.",
 
     duplicateTitle: "Du har redan svarat",
     duplicateBody:
