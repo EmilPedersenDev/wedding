@@ -18,7 +18,7 @@
 
       <form v-else class="rsvp" novalidate @submit.prevent="onSubmit">
         <div class="field">
-          <label for="rsvp-name">Namn</label>
+          <label for="rsvp-name">Fullständigt namn</label>
           <input
             id="rsvp-name"
             v-model.trim="form.name"
