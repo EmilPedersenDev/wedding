@@ -9,8 +9,8 @@
       <AccommodationSection />
       <TravelSection />
       <SpeechesSection />
-      <RsvpSection />
       <PracticalSection />
+      <RsvpSection />
     </main>
 
     <SiteFooter />

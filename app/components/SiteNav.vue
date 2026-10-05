@@ -5,7 +5,7 @@
 
       <nav class="nav__links" aria-label="Sektioner">
         <a
-          v-for="item in wedding.nav"
+          v-for="item in links"
           :key="item.id"
           class="nav__link"
           :class="{ 'nav__link--active': activeId === item.id }"
@@ -15,6 +15,8 @@
           {{ item.label }}
         </a>
       </nav>
+
+      <a v-if="cta" class="btn btn--light nav__cta" :href="`#${cta.id}`">{{ cta.label }}</a>
 
       <button
         class="nav__toggle"
@@ -34,7 +36,7 @@
     <div v-show="menuOpen" id="nav-overlay" class="nav__overlay">
       <nav aria-label="Sektioner, mobil">
         <a
-          v-for="item in wedding.nav"
+          v-for="item in links"
           :key="item.id"
           class="nav__overlay-link"
           :href="`#${item.id}`"
@@ -49,6 +51,9 @@
 
 <script setup lang="ts">
 import { wedding } from "~/content/wedding";
+
+const links = wedding.nav.filter((item) => !("cta" in item));
+const cta = wedding.nav.find((item) => "cta" in item);
 
 const scrolled = ref(false);
 const menuOpen = ref(false);
@@ -123,8 +128,7 @@ onBeforeUnmount(() => {
 .nav__bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  gap: 1.25rem;
   height: var(--nav-h);
   padding-inline: var(--gutter);
 }
@@ -135,11 +139,13 @@ onBeforeUnmount(() => {
   letter-spacing: 0.06em;
   text-decoration: none;
   white-space: nowrap;
+  margin-right: auto;
 }
 
 .nav__links {
   display: none;
   gap: 1.75rem;
+  margin-right: 0.75rem;
 
   @media (min-width: 64rem) {
     display: flex;
@@ -176,6 +182,21 @@ onBeforeUnmount(() => {
     &::after {
       transform: scaleX(1);
     }
+  }
+}
+
+.nav__cta {
+  padding: 0.3rem 0.85rem;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+  color: inherit;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--bg);
+    background: var(--ink);
+    border-color: var(--ink);
   }
 }
 

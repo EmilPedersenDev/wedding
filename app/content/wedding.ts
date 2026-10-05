@@ -202,8 +202,8 @@ export const wedding = {
     { id: "boende", label: "Boende" },
     { id: "resa", label: "Resa" },
     { id: "tal", label: "Tal & toastmadames" },
-    { id: "osa", label: "OSA" },
     { id: "praktiskt", label: "Praktiskt" },
+    { id: "osa", label: "OSA", cta: true },
   ],
 } as const;
 
