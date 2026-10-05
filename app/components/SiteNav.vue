@@ -44,6 +44,9 @@
         >
           {{ item.label }}
         </a>
+        <a v-if="cta" class="btn btn--light nav__overlay-cta" :href="`#${cta.id}`" @click="menuOpen = false">
+          {{ cta.label }}
+        </a>
       </nav>
     </div>
   </header>
@@ -186,12 +189,17 @@ onBeforeUnmount(() => {
 }
 
 .nav__cta {
+  display: none;
   padding: 0.3rem 0.85rem;
   font-size: 0.6875rem;
   line-height: 1.5;
   letter-spacing: 0.16em;
   color: inherit;
   white-space: nowrap;
+
+  @media (min-width: 64rem) {
+    display: inline-block;
+  }
 
   &:hover {
     color: var(--bg);
@@ -260,6 +268,11 @@ onBeforeUnmount(() => {
     flex-direction: column;
     gap: 0.25rem;
   }
+}
+
+.nav__overlay-cta {
+  margin-top: 2rem;
+  text-align: center;
 }
 
 .nav__overlay-link {
