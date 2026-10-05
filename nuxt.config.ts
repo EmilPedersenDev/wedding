@@ -10,9 +10,6 @@ export default defineNuxtConfig({
       // bara lokalt. Standardvärdet gör att ett vanligt `npm run generate`
       // ändå pekar mot rätt edge-funktion.
       rsvpEndpoint: "https://awrcqefsaikbupktaqdj.supabase.co/functions/v1/rsvp",
-      // Tom sträng lokalt = OSA-formuläret hoppar över Turnstile-widgeten och
-      // faller tillbaka till mock-inskickningen. Sätts via NUXT_PUBLIC_TURNSTILE_SITE_KEY.
-      turnstileSiteKey: "",
     },
   },
 });

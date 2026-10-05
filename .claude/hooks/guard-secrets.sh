@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # PreToolUse guard: refuse to let any tool touch this repo's credential files.
 #
-# .env, supabase/.env.local and .mcp.json all hold live secrets (Turnstile secret,
-# IP salt, a GitHub PAT). They are gitignored, but nothing otherwise stops a tool
-# call from reading them straight into a transcript. .env.example is deliberately
+# .env, supabase/.env.local and .mcp.json all hold live secrets (e.g. a GitHub PAT).
+# They are gitignored, but nothing otherwise stops a tool call from reading them
+# straight into a transcript. .env.example is deliberately
 # allowed through — it documents the key names without the values.
 #
 # Contract: print a PreToolUse deny decision on stdout, or print nothing at all.
@@ -21,7 +21,7 @@ if printf '%s' "$target" | grep -qE '\.mcp\.json|\.env\.local|\.env\.keys|\.env(
     hookSpecificOutput: {
       hookEventName: "PreToolUse",
       permissionDecision: "deny",
-      permissionDecisionReason: ("guard-secrets hook: `\($t)` refers to a credential file (Turnstile secret, IP salt, GitHub PAT). Read .env.example for the key names, or ask the user for a value.")
+      permissionDecisionReason: ("guard-secrets hook: `\($t)` refers to a credential file (e.g. a GitHub PAT). Read .env.example for the key names, or ask the user for a value.")
     }
   }'
 fi

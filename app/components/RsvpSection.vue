@@ -18,13 +18,6 @@
       </div>
 
       <form v-else class="rsvp" novalidate @submit.prevent="onSubmit">
-        <!-- Honeypot: osynlig för människor, men en riktig, fokuserbar input — bottar hoppar
-             oftare över den om den bara döljs visuellt, snarare än via type="hidden". -->
-        <div class="rsvp__hp" aria-hidden="true">
-          <label for="rsvp-website">{{ r.honeypotLabel }}</label>
-          <input id="rsvp-website" v-model="form.website" type="text" name="website" tabindex="-1" autocomplete="off" />
-        </div>
-
         <div class="field">
           <label for="rsvp-name">Namn</label>
           <input
@@ -117,12 +110,6 @@
           <p v-if="errors.note" id="err-note" class="field__error">{{ errors.note }}</p>
         </div>
 
-        <div class="field field--wide rsvp__turnstile">
-          <ClientOnly>
-            <TurnstileWidget v-if="siteKey" ref="turnstileRef" :site-key="siteKey" />
-          </ClientOnly>
-        </div>
-
         <div class="field field--wide rsvp__actions">
           <p v-if="hasErrors" class="rsvp__summary" role="alert">
             {{ r.summaryError }}
@@ -143,7 +130,7 @@ import { RSVP_LIMITS } from "~/utils/rsvpLimits";
 const r = wedding.rsvp;
 
 type FieldName = "name" | "email" | "guests" | "diet" | "note";
-type ResultState = "success" | "duplicate" | "rate_limited" | "captcha" | "error" | null;
+type ResultState = "success" | "duplicate" | "error" | null;
 
 const emptyForm = () => ({
   name: "",
@@ -152,11 +139,9 @@ const emptyForm = () => ({
   guests: 1,
   diet: "",
   note: "",
-  website: "", // honeypot — riktiga besökare lämnar den alltid tom
 });
 
 const config = useRuntimeConfig();
-const siteKey = config.public.turnstileSiteKey;
 
 const form = reactive(emptyForm());
 const touched = reactive<Record<FieldName, boolean>>({ name: false, email: false, guests: false, diet: false, note: false });
@@ -164,7 +149,6 @@ const attempted = ref(false);
 const pending = ref(false);
 const result = ref<ResultState>(null);
 const serverErrors = reactive<Partial<Record<FieldName, string>>>({});
-const turnstileRef = ref<{ reset: () => void; getToken: (timeoutMs?: number) => Promise<string | null> } | null>(null);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -208,17 +192,13 @@ const errors = computed<Partial<Record<FieldName, string>>>(() => {
 
 const hasErrors = computed(() => Object.keys(errors.value).length > 0);
 
-/** Vy-data för de fyra terminal-lägena. null = visa formuläret. */
+/** Vy-data för de tre terminal-lägena. null = visa formuläret. */
 const resultView = computed(() => {
   switch (result.value) {
     case "success":
       return { title: r.thanksTitle, body: r.thanksBody, role: "status" as const, retry: false };
     case "duplicate":
       return { title: r.duplicateTitle, body: r.duplicateBody, role: "status" as const, retry: false };
-    case "rate_limited":
-      return { title: r.errorTitle, body: r.rateLimitBody, role: "alert" as const, retry: true };
-    case "captcha":
-      return { title: r.errorTitle, body: r.captchaBody, role: "alert" as const, retry: true };
     case "error":
       return { title: r.errorTitle, body: r.errorBody, role: "alert" as const, retry: true };
     default:
@@ -253,16 +233,17 @@ const FIELD_ERROR_MESSAGES: Record<FieldName, Partial<Record<string, string>>> =
   note: { too_long: r.fieldErrors.noteTooLong },
 };
 
-function applyServerFieldErrors(fields: Record<string, string>) {
+function applyServerFieldErrors(fields: Record<string, string>): boolean {
   clearServerErrors();
   for (const [serverField, code] of Object.entries(fields)) {
     const key = SERVER_FIELD_MAP[serverField];
     if (!key) continue;
     serverErrors[key] = FIELD_ERROR_MESSAGES[key]?.[code] ?? r.fieldErrors.generic;
   }
+  return Object.keys(serverErrors).length > 0;
 }
 
-function buildPayload(token: string) {
+function buildPayload() {
   return {
     name: form.name.trim(),
     email: form.email.trim().toLowerCase(),
@@ -270,8 +251,6 @@ function buildPayload(token: string) {
     num_of_guests: form.attending === "yes" ? form.guests : 0,
     allergies_and_special_food: form.attending === "yes" ? form.diet.trim() : "",
     other_information: form.note.trim(),
-    website: form.website,
-    turnstile_token: token,
   };
 }
 
@@ -290,18 +269,16 @@ async function onSubmit() {
   if (!config.public.rsvpEndpoint) {
     // Ingen backend konfigurerad (t.ex. npm run dev utan .env) — behåll mock-vägen
     // så sajten går att utveckla lokalt utan Supabase.
-    console.log("OSA (mock, inget sparas):", buildPayload(""));
+    console.log("OSA (mock, inget sparas):", buildPayload());
     result.value = "success";
     return;
   }
 
   pending.value = true;
   try {
-    const token = (await turnstileRef.value?.getToken()) ?? "";
     await $fetch(config.public.rsvpEndpoint, {
       method: "POST",
-      body: buildPayload(token),
-      retry: 0, // token är engångs — en retry skulle alltid nekas och dölja ett dubbelinskick
+      body: buildPayload(),
       timeout: 15_000,
     });
     result.value = "success";
@@ -311,20 +288,16 @@ async function onSubmit() {
 
     if (status === 409 || code === "duplicate") {
       result.value = "duplicate";
-    } else if (status === 429 || code === "rate_limited") {
-      result.value = "rate_limited";
-    } else if (status === 403 || code === "captcha") {
-      result.value = "captcha";
-    } else if (status === 400 && err?.data?.fields) {
-      // Bör i praktiken vara onåbart eftersom klienten speglar servervalideringen —
-      // men om det ändå händer, visa felet på rätt fält i stället för ett terminal-läge.
-      applyServerFieldErrors(err.data.fields);
-    } else {
-      result.value = "error";
+      return;
     }
+
+    // Fältfel från servern bör vara onåbara eftersom klienten speglar servervalideringen.
+    // Går de ändå inte att visa på ett fält blir det felläget — annars står formuläret
+    // kvar utan någon synlig återkoppling.
+    const shownOnFields = status === 400 && !!err?.data?.fields && applyServerFieldErrors(err.data.fields);
+    if (!shownOnFields) result.value = "error";
   } finally {
     pending.value = false;
-    if (result.value !== "success") turnstileRef.value?.reset();
   }
 }
 
@@ -360,21 +333,6 @@ function retry() {
   @media (min-width: 40rem) {
     grid-template-columns: 1fr 1fr;
   }
-}
-
-// Osynlig för människor: förskjuten utanför synligt område, inte display:none eller
-// type="hidden" — båda ignoreras oftare av enklare formulärbottar.
-.rsvp__hp {
-  position: absolute;
-  left: -9999px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.rsvp__turnstile {
-  min-height: 0;
 }
 
 .field {

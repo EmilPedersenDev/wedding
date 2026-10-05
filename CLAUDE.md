@@ -30,22 +30,25 @@ Component-specific styling is scoped SCSS in each SFC, built on the tokens and s
 ### RSVP flow
 
 The RSVP form (`app/components/RsvpSection.vue`) POSTs JSON to a Supabase Edge Function — there is
-no Supabase client and no anon key in the browser. `onSubmit` awaits a Cloudflare Turnstile token
-from `app/components/TurnstileWidget.vue`, then `$fetch`s `runtimeConfig.public.rsvpEndpoint` and
-maps the response to one of five states: success, already-RSVP'd (`duplicate`), rate-limited,
-captcha-failed, or a generic error. A 400 with field-level errors is not terminal — it writes into
-`serverErrors` and returns the guest to the form. If `runtimeConfig.public.rsvpEndpoint` is unset
-(e.g. a bare `npm run dev` with no `.env`), submission falls back to logging the payload to the
-console and showing the success state, so the site stays usable without Supabase configured.
+no Supabase client and no anon key in the browser. `onSubmit` `$fetch`es
+`runtimeConfig.public.rsvpEndpoint` and maps the response to one of three states: success,
+already-RSVP'd (`duplicate`), or a generic error. A 400 with field-level errors is not terminal — it
+writes into `serverErrors` and returns the guest to the form (unless none of the errors maps to a
+visible field, in which case it falls back to the error state). If
+`runtimeConfig.public.rsvpEndpoint` is unset (e.g. a bare `npm run dev` with no `.env`), submission
+falls back to logging the payload to the console and showing the success state, so the site stays
+usable without Supabase configured.
 
 Backend lives in `supabase/`:
 
-- `supabase/migrations/` — the `rsvp` and `rsvp_rate_limit` tables. RLS is enabled on both with
-  **no policies** — only the service role (used exclusively by the edge function) can read or
-  write; there is no anon insert path to weaken.
-- `supabase/functions/rsvp/` — the only write path. Deno + zod, pipeline order: honeypot →
-  Turnstile verification → per-IP rate limit → validation → insert. See its `README.md` for
-  required secrets, local `supabase functions serve` usage, and example curl requests.
+- `supabase/migrations/` — the `rsvp` table. RLS is enabled with **no policies** — only the
+  service role (used exclusively by the edge function) can read or write; there is no anon insert
+  path to weaken.
+- `supabase/functions/rsvp/` — the only write path. Deno + zod: validation → insert. No captcha,
+  honeypot or rate limit, on purpose — the site is unindexed and shared only with ~50 invited
+  guests, so each of those was a failure point for real guests with no threat to justify it. Don't
+  reintroduce them without a concrete abuse problem. See its `README.md` for required secrets,
+  local `supabase functions serve` usage, and example curl requests.
 - Shared validation limits live in three places kept in sync by hand: `app/utils/rsvpLimits.ts`
   (client UX), `supabase/functions/rsvp/schema.ts` (the zod schema — authoritative), and the
   migration's `check` constraints (last line of defense). The `check-rsvp-limits` hook (below)

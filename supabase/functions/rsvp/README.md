@@ -1,19 +1,19 @@
 # `rsvp` edge function
 
 Backend for the wedding site's OSA form. Public and unauthenticated by design — anyone can reach
-this endpoint, so it validates, verifies a captcha, rate-limits, and only then writes to Postgres
-using the service role key. RLS is enabled on both `rsvp` and `rsvp_rate_limit` with **no
-policies**, so this function is the only write path; there is no anon insert to weaken.
+this endpoint, so it validates and only then writes to Postgres using the service role key. RLS is
+enabled on `rsvp` with **no policies**, so this function is the only write path; there is no anon
+insert to weaken.
 
-Pipeline (short-circuits on the first failure): honeypot → Turnstile → per-IP rate limit → zod
-validation → insert. See `index.ts` for the exact order and `schema.ts` for validation rules.
+Pipeline: zod validation → insert. See `schema.ts` for validation rules. There is deliberately no
+captcha, honeypot or rate limit: the site is unindexed and only shared with invited guests, and
+each of those was a way for a real guest's submission to fail. Junk rows, if any ever appear, are
+soft-deleted by hand (see Troubleshooting).
 
 ## Required secrets
 
 | Name | Purpose |
 |---|---|
-| `TURNSTILE_SECRET` | Cloudflare Turnstile secret key, verified against `https://challenges.cloudflare.com/turnstile/v0/siteverify`. |
-| `IP_SALT` | Random string mixed into the submitter's IP before SHA-256 hashing. Set once and leave it alone — rotating it resets every rate-limit window and makes existing `submitted_ip_hash` values impossible to correlate with future ones. |
 | `ALLOWED_ORIGINS` | Comma-separated list of origins allowed to call this function (CORS). No wildcard. |
 
 `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are **reserved** names that Supabase injects
@@ -23,10 +23,7 @@ automatically for every edge function — you cannot and must not set them yours
 ## Configure production
 
 ```bash
-supabase secrets set \
-  TURNSTILE_SECRET=<your-turnstile-secret> \
-  IP_SALT=$(openssl rand -hex 32) \
-  ALLOWED_ORIGINS=https://<production-domain>
+supabase secrets set ALLOWED_ORIGINS=https://<production-domain>
 ```
 
 Deploy the function:
@@ -39,7 +36,8 @@ supabase functions deploy rsvp
 
 Requires Docker running and the Supabase CLI. `supabase functions serve` reads
 `supabase/functions/.env` by **default, not** `supabase/.env.local` — always pass `--env-file`
-explicitly, otherwise secrets silently come up empty and every request 500s:
+explicitly, otherwise `ALLOWED_ORIGINS` silently comes up empty and falls back to
+`http://localhost:3000`:
 
 ```bash
 supabase start
@@ -48,14 +46,6 @@ supabase functions serve rsvp --env-file supabase/.env.local --no-verify-jwt
 
 (`--no-verify-jwt` is belt-and-suspenders alongside the `verify_jwt = false` already set for this
 function in `supabase/config.toml` — the browser sends no `Authorization` header by design.)
-
-`supabase/.env.local` ships with Cloudflare's official test key pair so the pipeline is exercisable
-without a real Turnstile account:
-
-- `1x0000000000000000000000000000000AA` — always passes.
-- `2x0000000000000000000000000000000AA` — always fails (use this to test the `captcha` response).
-
-Swap in real keys to test end-to-end against your actual Turnstile widget/site key pair.
 
 ## Debug in VS Code
 
@@ -87,23 +77,12 @@ curl -i -X POST "$URL" \
   -H "Content-Type: application/json" \
   -H "Origin: http://localhost:3000" \
   -d '{"name":"Ada Lovelace","email":"ada@example.com","attending":true,"num_of_guests":2,
-       "allergies_and_special_food":"","other_information":"","website":"",
-       "turnstile_token":"XXXX.DUMMY.TOKEN.XXXX"}'
+       "allergies_and_special_food":"","other_information":""}'
 # -> 200 {"ok":true}
-
-# Honeypot filled — silent no-op, still 200
-curl -i -X POST "$URL" -H "Content-Type: application/json" -H "Origin: http://localhost:3000" \
-  -d '{"name":"Bot","email":"bot@example.com","attending":true,"num_of_guests":1,"website":"http://spam.example"}'
-# -> 200 {"ok":true}, no row written
-
-# Missing captcha token, real secret configured
-curl -i -X POST "$URL" -H "Content-Type: application/json" -H "Origin: http://localhost:3000" \
-  -d '{"name":"Ada","email":"ada2@example.com","attending":true,"num_of_guests":1,"website":""}'
-# -> 403 {"ok":false,"code":"captcha"}
 
 # Oversized field
 curl -i -X POST "$URL" -H "Content-Type: application/json" -H "Origin: http://localhost:3000" \
-  -d "{\"name\":\"$(python3 -c 'print("A"*101)')\",\"email\":\"ada3@example.com\",\"attending\":true,\"num_of_guests\":1,\"website\":\"\",\"turnstile_token\":\"XXXX.DUMMY.TOKEN.XXXX\"}"
+  -d "{\"name\":\"$(python3 -c 'print("A"*101)')\",\"email\":\"ada3@example.com\",\"attending\":true,\"num_of_guests\":1}"
 # -> 400 {"ok":false,"code":"invalid","fields":{"name":"too_long"}}
 
 # Duplicate email (submit the first curl again)
