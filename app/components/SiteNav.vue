@@ -108,6 +108,11 @@ onBeforeUnmount(() => {
   transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
   border-bottom: 1px solid transparent;
 
+  // Matchar HeroSection: på liggande skärmar ligger navigationen över ljus bakgrund, inte över fotot.
+  @media (min-width: 48rem) and (orientation: landscape) {
+    color: var(--ink);
+  }
+
   &--solid {
     background: var(--bg);
     color: var(--ink);
@@ -122,8 +127,6 @@ onBeforeUnmount(() => {
   gap: 2rem;
   height: var(--nav-h);
   padding-inline: var(--gutter);
-  max-width: 78rem;
-  margin-inline: auto;
 }
 
 .nav__brand {

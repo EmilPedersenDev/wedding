@@ -25,8 +25,7 @@ export const wedding = {
   venue: {
     eyebrow: "Plats",
     title: "Holmanäs gård",
-    // TODO: bekräfta att vigseln faktiskt hålls på gården, och var på området — inte dokumenterat än.
-    body: "Holmanäs gård är en skånsk lantgård från mitten av 1800-talet, varsamt renoverad, med sädesfält som når ända fram till husknuten och havet i horisonten. Själva festen hålls i gårdens ombyggda loge — vitkalkade stenväggar, ursprungliga stallfönster sida vid sida med stora moderna glaspartier som släpper in dagsljuset, och en minglingsterrass ut mot fälten. Planen är att både vigsel och fest ska hållas här på gården, så ni slipper förflytta er under dagen.",
+    body: "En skånsk lantgård från mitten av 1800-talet, med sädesfält ända fram till husknuten och havet i horisonten. Här firar vi hela dagen — vigsel, middag och fest — så ni behöver aldrig förflytta er.",
     address: "Lyckebovägen 248, 231 93 Trelleborg",
     mapQuery: "Holmanäs Gård, Lyckebovägen 248, 231 93 Trelleborg",
     mapLink: "https://www.google.com/maps/search/?api=1&query=Holman%C3%A4s+G%C3%A5rd%2C+Lyckebov%C3%A4gen+248%2C+231+93+Trelleborg",
@@ -45,26 +44,26 @@ export const wedding = {
   },
 
   accommodation: {
-    eyebrow: "Boende",
     title: "Boende",
     intro: "För den som vill bo <strong>runt hörnet, bland rapsfälten och nära Holmanäs</strong> finns ett begränsat antal sängplatser att hyra på granngårdarna.",
     nearbyTitle: "Närmast Holmanäs",
     nearby: [
-      { name: "Lägenhet med två sovrum", detail: "dubbelsängar, 2–4 personer", link: "" },
-      { name: "Gästhus", detail: "dubbelsäng och bäddsoffa, 2–3 personer", link: "" },
-      { name: "Lägenhet med två sovrum", detail: "4 sängplatser", link: "" },
-      { name: "Lägenhet med tre sovrum", detail: "5 sängplatser", link: "" },
+      { name: "Lägenhet med två sovrum", detail: "Dubbelsängar, 2–4 personer" },
+      { name: "Gästhus", detail: "Dubbelsäng och bäddsoffa, 2–3 personer" },
+      { name: "Lägenhet med två sovrum", detail: "4 sängplatser" },
+      { name: "Lägenhet med tre sovrum", detail: "5 sängplatser" },
     ],
     bookingNote: "Är ni intresserade av något av dessa boenden? Mer information om bokning och kontaktuppgifter kommer inom kort.",
-    nearbyHotels: [
-      { name: "Liebacksgården – 1,5 km från Holmanäs", detail: "Liebacksvägen 59, med 5 sängplatser. Kan bland annat bokas via Booking.com.", link: "" },
-      { name: "Hotell Stavstensgården – 5,6 km från Holmanäs", detail: "Ett lantligt hotellalternativ med nära till Holmanäs.", link: "" },
-      { name: "Hotell Gässlingen, Skanör – ca 6,3 km från Holmanäs", detail: "Ett hotellalternativ i Skanör.", link: "" },
-      { name: "Strandvillan Ljunghusen – ca 7 km från Holmanäs", detail: "Ett mindre boende nära havet och Falsterbokanalen.", link: "" },
-      { name: "Ängavallen – ca 7 km från Holmanäs", detail: "Ett lantligt boende i gårdsmiljö.", link: "" },
-      { name: "Höllviksnäs – 8,3 km från Holmanäs", detail: "Här finns både hotellrum och villor för större sällskap.", link: "" },
-      { name: "Malmö och Trelleborg – ca 25 min från Holmanäs", detail: "För den som hellre vill bo i stadsmiljö finns även flera hotellalternativ i både Malmö och Trelleborg, cirka 25 minuters bilresa från Holmanäs.", link: "" },
+    hotelsTitle: "Hotell och boenden i närheten",
+    hotels: [
+      { distance: "1,5 km", name: "Liebacksgården", mapQuery: "Liebacksgården", detail: "Liebacksvägen 59, med 5 sängplatser. Kan bland annat bokas via Booking.com." },
+      { distance: "5,6 km", name: "Hotell Stavstensgården", mapQuery: "Hotell Stavstensgården, Trelleborg", detail: "Ett lantligt hotellalternativ med nära till Holmanäs." },
+      { distance: "ca 6,3 km", name: "Hotell Gässlingen, Skanör", mapQuery: "Hotell Gässlingen, Skanör", detail: "Ett hotellalternativ i Skanör." },
+      { distance: "ca 7 km", name: "Strandvillan Ljunghusen", mapQuery: "Strandvillan Ljunghusen", detail: "Ett mindre boende nära havet och Falsterbokanalen." },
+      { distance: "ca 7 km", name: "Ängavallen", mapQuery: "Ängavallen, Norra Håslöv", detail: "Ett lantligt boende i gårdsmiljö." },
+      { distance: "8,3 km", name: "Höllviksnäs", mapQuery: "Höllviksnäs, Höllviken", detail: "Här finns både hotellrum och villor för större sällskap." },
     ],
+    cityNote: "För den som hellre vill bo i stadsmiljö finns flera hotell i både Malmö och Trelleborg, cirka 25 minuters bilresa från Holmanäs.",
     footer: "Det finns även ett stort utbud av hus och lägenheter i <strong>Höllviken, Ljunghusen, Skanör och Falsterbo</strong> genom exempelvis <strong>Airbnb</strong>.",
   },
 
@@ -80,24 +79,7 @@ export const wedding = {
     ],
   },
 
-  dressCode: {
-    eyebrow: "Klädkod",
-    title: "Kavaj – det du känner dig fin i.",
-    body: "Holmanäs gård har många vackra miljöer som vi kommer att njuta av och röra oss mellan under dagen och kvällen, både inomhus och utomhus. Glöm inte att ta med något varmt om kvällen blir sval – och såklart, dansskorna!",
-    note: "",
-  },
-
-  gifts: {
-    eyebrow: "Presenter",
-    title: "Presentönskemål",
-    body: "Att ni firar med oss är den finaste presenten vi kan önska oss! Om ni ändå vill ge något utöver det, blir vi väldigt glada för ett bidrag till vår bröllopsresa.",
-    swishLabel: "Swish",
-    swish: "0733520150",
-    note: "",
-  },
-
   speeches: {
-    eyebrow: "Tal & toastmadames",
     title: "Tal & toastmadames",
     body: "Vi är så glada att ha <strong>Linn Hänsel och Caroline Nileskär</strong> som våra toastmadames och ser fram emot allt fint, roligt och oväntat som kan dyka upp under kvällen. Om du vill hålla tal eller bidra med något annat inslag, är det till dem du vänder dig.",
     note: "Information om vart du vänder dig och när du senast behöver höra av dig kommer snart.",
@@ -143,14 +125,26 @@ export const wedding = {
     },
   },
 
-  faq: {
-    eyebrow: "Frågor",
-    title: "Vanliga frågor",
-    items: [
+  practical: {
+    eyebrow: "Praktiskt",
+    title: "Bra att veta",
+    dressCode: {
+      label: "Klädkod",
+      title: "Kavaj – det du känner dig fin i.",
+      body: "Holmanäs gård har många vackra miljöer som vi kommer att njuta av och röra oss mellan under dagen och kvällen, både inomhus och utomhus. Glöm inte att ta med något varmt om kvällen blir sval – och såklart, dansskorna!",
+    },
+    gifts: {
+      label: "Gåvor",
+      title: "Önskemål om gåvor",
+      body: "Att ni firar med oss är den finaste gåvan vi kan önska oss! Om ni ändå vill ge något utöver det, blir vi väldigt glada för ett bidrag till vår bröllopsresa.",
+      swishLabel: "Swish",
+      swish: "0733520150",
+    },
+    faqTitle: "Vanliga frågor",
+    faq: [
       {
         q: "Behöver jag förflytta mig under dagen?",
-        // TODO: bekräfta att vigseln hålls på gården, se venue-sektionen ovan.
-        a: "Planen är att både vigsel och fest hålls på Holmanäs, så du slipper åka mellan flera platser under dagen.",
+        a: "Nej, både vigsel och fest hålls på Holmanäs, så du slipper åka mellan flera platser under dagen.",
       },
       {
         q: "Får jag ta med sällskap?",
@@ -178,17 +172,6 @@ export const wedding = {
     ],
   },
 
-  contact: {
-    eyebrow: "Kontakt",
-    title: "Undrar du något?",
-    body: "Hör av dig till vår toastmaster, så slipper brudparet frågorna.",
-    // TODO: toastmaster inte utsedd — namn, e-post och telefon nedan måste ersättas innan sajten delas.
-    person: "Meddelas senare",
-    role: "Toastmaster",
-    email: "placeholder@example.se",
-    phone: "070-000 00 00",
-  },
-
   footer: {
     hashtagLabel: "Tagga gärna era bilder",
     // TODO: bekräfta hashtaggen.
@@ -196,31 +179,15 @@ export const wedding = {
     closing: "Vi ses på Holmanäs",
   },
 
-  /** Placeholder-bilder från Unsplash. Byt ut mot egna foton när de finns. */
   images: {
     hero: {
-      src: unsplash("1519741497674-611481863552", 2000),
-      alt: "Brudpar i motljus, bruden håller en bukett",
+      src: "/images/IMG20241004230204.jpg",
+      alt: "Brudparet skålar i champagne",
     },
-    venue: {
-      src: unsplash("1518780664697-55e3ad937233"),
-      alt: "Rött trähus i ett böljande fält",
-    },
+    /** Placeholder-bilder från Unsplash. Byt ut mot egna foton när de finns. */
     schedule: {
       src: unsplash("1519225421980-715cb0215aed"),
       alt: "Dukat långbord med ängsblommor",
-    },
-    travel: {
-      src: unsplash("1441974231531-c6227db76b6e"),
-      alt: "Grusväg genom en sommargrön skog",
-    },
-    dressCode: {
-      src: unsplash("1490481651871-ab68de25d43d"),
-      alt: "Klädställning med plagg i beige och vitt",
-    },
-    gifts: {
-      src: unsplash("1465495976277-4387d4b0b4c6"),
-      alt: "Två händer med vigselringar vilar på en bukett",
     },
     footer: {
       src: unsplash("1520854221256-17451cc331bf"),
@@ -230,16 +197,13 @@ export const wedding = {
 
   /** Ordning och etiketter för navigationen; id:na matchar sektionernas ankare. */
   nav: [
-    { id: "plats", label: "Plats" },
     { id: "schema", label: "Schema" },
+    { id: "plats", label: "Plats" },
     { id: "boende", label: "Boende" },
     { id: "resa", label: "Resa" },
-    { id: "kladkod", label: "Klädkod" },
-    { id: "presenter", label: "Presenter" },
     { id: "tal", label: "Tal & toastmadames" },
     { id: "osa", label: "OSA" },
-    { id: "faq", label: "FAQ" },
-    { id: "kontakt", label: "Kontakt" },
+    { id: "praktiskt", label: "Praktiskt" },
   ],
 } as const;
 

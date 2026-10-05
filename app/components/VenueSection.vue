@@ -1,5 +1,5 @@
 <template>
-  <section id="plats" class="section">
+  <section id="plats" class="section section--alt">
     <div class="shell">
       <div v-reveal class="section__head measure">
         <p class="eyebrow">{{ v.eyebrow }}</p>
@@ -7,10 +7,6 @@
         <p class="section__lead">{{ v.body }}</p>
         <p class="venue__address">{{ v.address }}</p>
       </div>
-
-      <figure v-reveal class="venue__figure">
-        <img :src="wedding.images.venue.src" :alt="wedding.images.venue.alt" loading="lazy" />
-      </figure>
 
       <div v-reveal class="venue__map">
         <iframe
@@ -33,9 +29,7 @@
 import { wedding } from "~/content/wedding";
 
 const v = wedding.venue;
-
-// Google Maps embed utan API-nyckel.
-const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(v.mapQuery)}&output=embed`;
+const mapSrc = mapEmbedSrc(v.mapQuery);
 </script>
 
 <style lang="scss" scoped>
@@ -45,16 +39,6 @@ const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(v.mapQuery)}&
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-mute);
-}
-
-.venue__figure {
-  margin: 0 0 clamp(2rem, 5vw, 3rem);
-
-  img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-  }
 }
 
 .venue__map {

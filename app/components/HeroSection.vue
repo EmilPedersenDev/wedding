@@ -45,6 +45,7 @@ import { wedding } from "~/content/wedding";
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 35%;
 }
 
 /* Mörk gradient så texten håller kontrast oavsett bild. */
@@ -99,6 +100,44 @@ import { wedding } from "~/content/wedding";
   &:hover {
     background: transparent;
     color: #fff;
+  }
+}
+
+/* Porträttfotot skulle beskäras kraftigt i full bredd på liggande skärmar — dela ytan i stället. */
+@media (min-width: 48rem) and (orientation: landscape) {
+  .hero {
+    padding-right: calc(45% + var(--gutter));
+    color: var(--ink);
+    background: var(--bg-tint);
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .hero__img {
+    inset: var(--nav-h) 0 0 auto;
+    width: 45%;
+  }
+
+  .hero__intro,
+  .hero__meta {
+    color: var(--ink-soft);
+  }
+
+  .hero__names {
+    font-size: clamp(3rem, 7vw, 6.5rem);
+  }
+
+  .hero__cta {
+    color: var(--bg);
+    background: var(--ink);
+    border-color: var(--ink);
+
+    &:hover {
+      background: transparent;
+      color: var(--ink);
+    }
   }
 }
 </style>

@@ -4,16 +4,13 @@
 
     <main id="main">
       <HeroSection />
-      <VenueSection />
       <ScheduleSection />
+      <VenueSection />
       <AccommodationSection />
       <TravelSection />
-      <DressCodeSection />
-      <GiftsSection />
       <SpeechesSection />
       <RsvpSection />
-      <FaqSection />
-      <ContactSection />
+      <PracticalSection />
     </main>
 
     <SiteFooter />

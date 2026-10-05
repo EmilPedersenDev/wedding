@@ -19,7 +19,7 @@ There is no test suite, linter, or CI configured in this repo.
 This is a Nuxt 4 wedding website: one long single-page site with anchor navigation.
 
 - `app/app.vue` — root component. Global `useHead` (fonts, favicon, `lang="sv"`), skip link, `<NuxtPage />`.
-- `app/pages/index.vue` — composition only: `SiteNav`, ten section components, `SiteFooter`. No markup or logic of its own.
+- `app/pages/index.vue` — composition only: `SiteNav`, the section components, `SiteFooter`. No markup or logic of its own.
 - `app/components/*.vue` — `SiteNav`, `SiteFooter` and one component per section (`HeroSection`, `VenueSection`, …). Flat directory so Nuxt auto-import gives unprefixed names.
 - `app/content/wedding.ts` — **all user-facing copy and image URLs**, as a typed `as const` object. This is the file to edit when changing wedding details or replacing placeholder text. Sections import their own slice (`const v = wedding.venue`).
 - `app/assets/css/main.scss` — the design system: CSS custom properties (palette, fonts, spacing), reset, base typography, and shared classes (`.section`, `.shell`, `.measure`, `.eyebrow`, `.btn`, `.rule`). Loaded globally via `css` in `nuxt.config.ts`.

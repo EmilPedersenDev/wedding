@@ -7,10 +7,6 @@
         <p class="section__lead">{{ t.body }}</p>
       </div>
 
-      <figure v-reveal class="travel__figure">
-        <img :src="wedding.images.travel.src" :alt="wedding.images.travel.alt" loading="lazy" />
-      </figure>
-
       <ul class="travel__list">
         <li v-for="(item, i) in t.items" :key="item.title" v-reveal="{ delay: i * 80 }" class="travel__item">
           <h3 class="travel__title">{{ item.title }}</h3>
@@ -28,16 +24,6 @@ const t = wedding.travel;
 </script>
 
 <style lang="scss" scoped>
-.travel__figure {
-  margin: 0 0 clamp(2.5rem, 6vw, 4rem);
-
-  img {
-    width: 100%;
-    aspect-ratio: 21 / 9;
-    object-fit: cover;
-  }
-}
-
 .travel__list {
   display: grid;
   gap: 2.5rem;

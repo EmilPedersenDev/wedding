@@ -1,5 +1,5 @@
 <template>
-  <section id="schema" class="section section--alt">
+  <section id="schema" class="section">
     <div class="shell">
       <div v-reveal class="section__head measure">
         <p class="eyebrow">{{ s.eyebrow }}</p>

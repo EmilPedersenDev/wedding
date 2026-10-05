@@ -1,7 +1,6 @@
 <template>
   <section id="tal" class="section">
     <div v-reveal class="shell measure speeches">
-      <p class="eyebrow">{{ s.eyebrow }}</p>
       <h2 class="section__title">{{ s.title }}</h2>
       <p class="section__lead" v-html="s.body"></p>
       <p class="speeches__note">{{ s.note }}</p>
