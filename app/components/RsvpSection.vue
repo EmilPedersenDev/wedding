@@ -11,8 +11,8 @@
       <div v-if="resultView" v-reveal class="rsvp__thanks measure" :role="resultView.role">
         <h3 class="rsvp__thanks-title">{{ resultView.title }}</h3>
         <p>{{ resultView.body }}</p>
-        <button class="btn btn--light rsvp__again" type="button" @click="resultView.retry ? retry() : reset()">
-          {{ resultView.retry ? r.retryLabel : r.againLabel }}
+        <button v-if="resultView.retry" class="btn btn--light rsvp__again" type="button" @click="retry">
+          {{ r.retryLabel }}
         </button>
       </div>
 
@@ -296,14 +296,6 @@ async function onSubmit() {
   } finally {
     pending.value = false;
   }
-}
-
-function reset() {
-  Object.assign(form, emptyForm());
-  touched.name = touched.email = touched.guestName = touched.diet = touched.note = false;
-  attempted.value = false;
-  clearServerErrors();
-  result.value = null;
 }
 
 /** Tillbaka till formuläret efter ett fel, utan att tappa det ifyllda. */

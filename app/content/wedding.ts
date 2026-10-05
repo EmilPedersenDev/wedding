@@ -137,7 +137,6 @@ export const wedding = {
     guestNameLabel: "Namn på gäst (vid anmälan av respektive)",
     submitLabel: "Skicka svar",
     submittingLabel: "Skickar…",
-    againLabel: "Skicka ett svar till",
     retryLabel: "Försök igen",
     summaryError: "Kontrollera de markerade fälten innan du skickar.",
 
