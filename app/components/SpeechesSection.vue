@@ -1,5 +1,5 @@
 <template>
-  <section id="tal" class="section">
+  <section id="tal" class="section section--alt">
     <div v-reveal class="shell measure speeches">
       <h2 class="section__title">{{ s.title }}</h2>
       <p class="section__lead" v-html="s.body"></p>

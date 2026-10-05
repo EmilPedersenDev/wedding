@@ -15,14 +15,14 @@
         <ol class="schedule__list">
           <li
             v-for="(item, i) in s.items"
-            :key="item.time"
+            :key="item.title"
             v-reveal="{ delay: i * 80 }"
             class="schedule__item"
           >
             <p class="schedule__time">{{ item.time }}</p>
             <div>
               <h3 class="schedule__title">{{ item.title }}</h3>
-              <p class="schedule__body">{{ item.body }}</p>
+              <p class="schedule__body" v-html="item.body"></p>
             </div>
           </li>
         </ol>
@@ -117,6 +117,17 @@ const s = wedding.schedule;
 .schedule__body {
   color: var(--ink-soft);
   font-size: 0.9375rem;
+
+  :deep(a) {
+    color: var(--ink);
+    text-underline-offset: 4px;
+    text-decoration-color: var(--line);
+    transition: text-decoration-color 0.2s ease;
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
 }
 
 /* Ge plats åt tidslinjen till höger om tidskolumnen. */

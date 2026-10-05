@@ -7,7 +7,6 @@
       <ScheduleSection />
       <VenueSection />
       <AccommodationSection />
-      <TravelSection />
       <SpeechesSection />
       <PracticalSection />
       <RsvpSection />

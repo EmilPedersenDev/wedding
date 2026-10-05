@@ -21,6 +21,13 @@
       <p v-reveal class="venue__link">
         <a :href="v.mapLink" target="_blank" rel="noopener noreferrer">Öppna i Google Maps</a>
       </p>
+
+      <ul class="venue__info">
+        <li v-for="(item, i) in v.items" :key="item.title" v-reveal="{ delay: i * 80 }" class="venue__info-item">
+          <h3 class="venue__info-title">{{ item.title }}</h3>
+          <p class="venue__info-body">{{ item.body }}</p>
+        </li>
+      </ul>
     </div>
   </section>
 </template>
@@ -70,5 +77,52 @@ const mapSrc = mapEmbedSrc(v.mapQuery);
       color: var(--ink);
     }
   }
+}
+
+.venue__info {
+  display: grid;
+  max-width: 46rem;
+  margin: clamp(3rem, 7vw, 4.5rem) auto 0;
+  text-align: center;
+
+  @media (min-width: 48rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.venue__info-item {
+  padding: 2rem 1rem;
+
+  & + & {
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 48rem) {
+    padding: 0.5rem 2.5rem;
+
+    & + & {
+      border-top: 0;
+      border-left: 1px solid var(--line);
+    }
+  }
+}
+
+.venue__info-title {
+  font-size: 1.5rem;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1px;
+    margin: 0.9rem auto 1rem;
+    background: var(--accent);
+  }
+}
+
+.venue__info-body {
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  text-wrap: pretty;
 }
 </style>

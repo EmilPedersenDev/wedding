@@ -3,15 +3,14 @@
     <div class="shell">
       <div v-reveal class="section__head measure">
         <h2 class="section__title">{{ a.title }}</h2>
-        <p class="section__lead" v-html="a.intro"></p>
       </div>
 
-      <div v-reveal class="stays">
-        <h3 class="stays__title">{{ a.nearbyTitle }}</h3>
-        <ul class="units">
-          <li v-for="(unit, i) in a.nearby" :key="i" class="units__item">
-            <p class="units__name">{{ unit.name }}</p>
-            <p class="units__detail">{{ unit.detail }}</p>
+      <div v-reveal class="stays measure">
+        <p class="section__lead farm__intro" v-html="a.intro"></p>
+        <ul class="farm">
+          <li v-for="(unit, i) in a.nearby" :key="i" class="farm__item">
+            <span class="farm__name">{{ unit.name }}</span>
+            <span class="farm__detail">{{ unit.detail }}</span>
           </li>
         </ul>
         <p class="stays__note">{{ a.bookingNote }}</p>
@@ -89,32 +88,36 @@ const selected = shallowRef<(typeof a.hotels)[number]>(a.hotels[0]);
   color: var(--ink-mute);
 }
 
-.units {
-  display: grid;
-  gap: 2rem 2.5rem;
-
-  @media (min-width: 36rem) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 60rem) {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.farm__intro {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.units__item {
-  padding-top: 1.25rem;
+.farm {
   border-top: 1px solid var(--line);
 }
 
-.units__name {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  line-height: 1.3;
-  margin-bottom: 0.4rem;
+.farm__item {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+
+  @media (min-width: 36rem) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
 }
 
-.units__detail {
+.farm__name {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  line-height: 1.35;
+}
+
+.farm__detail {
   font-size: 0.875rem;
   color: var(--ink-soft);
 }

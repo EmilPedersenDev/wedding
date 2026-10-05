@@ -5,9 +5,6 @@
     </div>
 
     <div class="footer__inner">
-      <p class="eyebrow">{{ wedding.footer.hashtagLabel }}</p>
-      <p class="footer__hashtag">{{ wedding.footer.hashtag }}</p>
-
       <nav class="footer__links" aria-label="Sidfot">
         <a v-for="item in wedding.nav" :key="item.id" :href="`#${item.id}`">{{ item.label }}</a>
       </nav>
@@ -30,13 +27,13 @@ import { wedding } from "~/content/wedding";
 }
 
 .footer__media {
-  height: clamp(14rem, 32vw, 22rem);
-  overflow: hidden;
+  padding: clamp(3rem, 8vw, 5rem) var(--gutter) 0;
 
   img {
-    width: 100%;
-    height: 100%;
+    width: min(100%, 24rem);
+    aspect-ratio: 3 / 4;
     object-fit: cover;
+    margin-inline: auto;
   }
 }
 
@@ -45,12 +42,6 @@ import { wedding } from "~/content/wedding";
   padding: clamp(3rem, 8vw, 5rem) var(--gutter);
   max-width: 40rem;
   margin-inline: auto;
-}
-
-.footer__hashtag {
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  margin-bottom: 2.5rem;
 }
 
 .footer__links {

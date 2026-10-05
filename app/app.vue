@@ -29,11 +29,12 @@ useHead({
     { property: "og:type", content: "website" },
     { property: "og:title", content: `${wedding.names} — ${wedding.date}` },
     { property: "og:description", content: `${wedding.names} gifter sig ${wedding.date} på ${wedding.venue.title}.` },
-    { property: "og:image", content: wedding.images.hero.src },
+    { property: "og:url", content: wedding.siteUrl },
+    { property: "og:image", content: `${wedding.siteUrl}${wedding.images.hero.src}` },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: `${wedding.names} — ${wedding.date}` },
     { name: "twitter:description", content: `${wedding.names} gifter sig ${wedding.date} på ${wedding.venue.title}.` },
-    { name: "twitter:image", content: wedding.images.hero.src },
+    { name: "twitter:image", content: `${wedding.siteUrl}${wedding.images.hero.src}` },
   ],
 });
 </script>
