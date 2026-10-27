@@ -125,7 +125,10 @@ export const wedding = {
   speeches: {
     title: "Tal & toastmadames",
     body: "Vi är så glada att ha <strong>Linn Hänsel och Caroline Nileskär</strong> som våra toastmadames och ser fram emot allt fint, roligt och oväntat som kan dyka upp under kvällen. Om du vill hålla tal eller bidra med något annat inslag, är det till dem du vänder dig.",
-    note: "Information om vart du vänder dig och när du senast behöver höra av dig kommer snart.",
+    contactLabel: "Mejla dem på",
+    email: "toastmadames@emilanna.se",
+    // TODO: replace with the actual last day to sign up for a speech once decided.
+    note: "När du senast behöver höra av dig meddelar vi snart.",
   },
 
   rsvp: {

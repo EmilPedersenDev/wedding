@@ -3,6 +3,9 @@
     <div v-reveal class="shell measure speeches">
       <h2 class="section__title">{{ s.title }}</h2>
       <p class="section__lead" v-html="s.body"></p>
+      <p class="speeches__contact">
+        {{ s.contactLabel }} <a :href="`mailto:${s.email}`">{{ s.email }}</a>
+      </p>
       <p class="speeches__note">{{ s.note }}</p>
     </div>
   </section>
@@ -17,6 +20,10 @@ const s = wedding.speeches;
 <style lang="scss" scoped>
 .speeches {
   text-align: center;
+}
+
+.speeches__contact {
+  margin-top: 1.5rem;
 }
 
 .speeches__note {
