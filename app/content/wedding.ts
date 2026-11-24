@@ -124,11 +124,16 @@ export const wedding = {
 
   speeches: {
     title: "Tal & toastmadames",
-    body: "Vi är så glada att ha <strong>Linn Hänsel och Caroline Nileskär</strong> som våra toastmadames och ser fram emot allt fint, roligt och oväntat som kan dyka upp under kvällen. Om du vill hålla tal eller bidra med något annat inslag, är det till dem du vänder dig.",
-    contactLabel: "Mejla dem på",
+    intro:
+      "Vi ber er anmäla tal eller andra trevligheter i god tid före bröllopet. Sista dagen för anmälan är den 1 maj. Anmälan görs direkt till våra toastmadames Caroline Nileskär och Linn Hänsel.",
+    mailLabel: "Mail",
     email: "toastmadames@emilanna.se",
-    // TODO: replace with the actual last day to sign up for a speech once decided.
-    note: "När du senast behöver höra av dig meddelar vi snart.",
+    subjectLabel: "Rubrik",
+    subject: "Emil&Anna 2027 - ert för- och efternamn",
+    instructions:
+      "Beskriv i mailet vad du/ni tänkt göra, hur lång tid det beräknas ta samt om det kräver någon utrustning. Vi vill dock på förhand poängtera att det inte finns någon projektor tillgänglig i lokalen.",
+    timeLimit:
+      "För tydlighetens skull har vi valt att sätta den övre tidsgränsen för tal till tre minuter, med undantag för nära familj. Övriga upptåg behöver dock inte hålla sig till denna tidsgräns.",
   },
 
   rsvp: {
